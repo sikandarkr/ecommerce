@@ -1,0 +1,95 @@
+:root {
+    --gutter: 10px;
+    --card-width: 200px;
+    --card-radius: 10px;
+    --card-bg: #fff;
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --card-padding: 10px;
+    --text-color: #333;
+    --btn-bg: #007bff;
+    --btn-bg-hover: #0056b3;
+    --btn-color: #fff;
+    --image-height: 150px;
+  }
+  
+  .card {
+    width: var(--card-width);
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--card-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: var(--gutter);
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+  }
+  
+  .card img.card-image {
+    width: 100%;
+    height: var(--image-height);
+    object-fit: cover;
+    border-radius: var(--card-radius) var(--card-radius) 0 0;
+  }
+  
+  .card-body {
+    text-align: center;
+    padding: var(--gutter);
+  }
+  
+  .card-title {
+    margin: 10px 0;
+    color: var(--text-color);
+    font-size: 1.2rem;
+  }
+  
+  .card-price {
+    margin: 10px 0;
+    color: var(--text-color);
+    font-size: 1rem;
+  }
+  
+  .card-rating {
+    margin: 10px 0;
+  }
+  
+  .star {
+    color: #ccc;
+    font-size: 1rem;
+  }
+  
+  .star.filled {
+    color: #ffd700;
+  }
+  
+  .add-to-cart-btn {
+    padding: 10px 20px;
+    background-color: var(--btn-bg);
+    color: var(--btn-color);
+    border: none;
+    border-radius: var(--card-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-to-cart-btn:hover {
+    background-color: var(--btn-bg-hover);
+  }
+  
+  @media (max-width: 768px) {
+    .card {
+      width: 150px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card {
+      width: 120px;
+    }
+  }
+  

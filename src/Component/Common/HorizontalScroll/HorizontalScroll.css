@@ -1,0 +1,81 @@
+:root {
+  --gutter: 10px;
+  --card-width: 150px;
+  --card-radius: 10px;
+  --card-bg: #fff;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --card-padding: 10px;
+  --text-color: #333;
+  --image-height: 100px;
+}
+
+.scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top:90px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+.scroll-content {
+  display: flex;
+  gap: var(--gutter);
+  padding: var(--gutter);
+  list-style: none;
+  margin: 0;
+  width: max-content;
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-content::before,
+.scroll-content::after {
+  content: '';
+  flex: 0 0 var(--gutter);
+}
+
+.card {
+  scroll-snap-align: center;
+  width: var(--card-width);
+  background-color: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: var(--card-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.card img.card-image {
+  width: 100%;
+  height: var(--image-height);
+  object-fit: cover;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
+.card p.card-text {
+  margin: 10px 0 0;
+  color: var(--text-color);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100px;
+  }
+}

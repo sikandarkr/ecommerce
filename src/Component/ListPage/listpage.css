@@ -1,0 +1,38 @@
+.pageHeader {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: space-around;
+}
+
+.searchbar_container {
+    width: 90%;
+}
+
+.sortdropdown_container {
+    width: 90%;
+}
+
+.list-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+    .pageHeader {
+        flex-direction: column;
+    }
+
+    .sortdropdown_container {
+        padding-top: 10px;
+        width: 100%;
+    }
+
+    .searchbar_container {
+        width: 95%;
+    }
+}
