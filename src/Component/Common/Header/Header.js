@@ -25,7 +25,7 @@ const Header = () => {
                 <Select
                     labelInValue
                     defaultValue={{
-                        value: 'hi',
+                        value: 'en',
                         label: 'select language',
                     }}
                     style={{
@@ -33,14 +33,13 @@ const Header = () => {
                     }}
                     onChange={handleChange}
                     options={[
-                       
-                        {
-                            value: 'hi',
-                            label: 'हिंदी',
-                        },
                         {
                             value: 'en',
                             label: 'En',
+                        },
+                        {
+                            value: 'hi',
+                            label: 'हिंदी',
                         },
                     ]}
                 />
@@ -51,7 +50,7 @@ const Header = () => {
                 <Badge count={9}>
                     <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                 </Badge>
-                <p>{t('home')}</p>
+                {/* <p>{t('home')}</p> */}
             </header>
             <HorizontalScroll />
         </>

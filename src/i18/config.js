@@ -8,7 +8,7 @@ i18n.use(initReactI18next).init({
     en: {
       translations: require('./locales/en/translations.json')
     },
-    es: {
+    hi: {
       translations: require('./locales/hi/translations.json')
     }
   },
