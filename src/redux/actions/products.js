@@ -2,7 +2,6 @@ import * as type from '../types';
 
 
 export function getProducts() {
-    console.log("From action the products is...");
     return {
       type: type.GET_PRODUCTS_REQUESTED,
     }

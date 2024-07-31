@@ -5,11 +5,11 @@ const API_URL =
 
 const fetchProductsList = async () => {
   try {
-    const response = await axios.post(API_URL,{"product_type": "food"});
+    const response = await axios.post(API_URL);
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch data");
   }
-};
+}; 
 
 export { fetchProductsList };
