@@ -1,4 +1,13 @@
 {
-    "home": "ghar",
-    "page2": "Page 2"
+    "home": "घर",
+    "page2": "पृष्ठ 2",
+    "all":"सभी",
+    "grocery":"किराना",
+    "electronic Gadget" : "इलेक्ट्रानिक्स",
+    "home Utility" : "घरेलू उपकरण",
+    "clothing":"कपड़े",
+    "furniture":"फर्नीचर",
+    "beauty Products" : "सौंदर्य उत्पाद",
+    "health and Wellness" : "स्वास्थ्य",
+    "legal Consultancy" :"कानूनी परामर्श"
   }
