@@ -30,6 +30,7 @@ function App() {
             </React.Suspense>
           }
         />
+        />
       </Routes>
     </>
   );

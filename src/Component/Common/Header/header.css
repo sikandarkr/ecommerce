@@ -165,3 +165,8 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+
+  .notification-badge:hover{
+    cursor: pointer;
+  }

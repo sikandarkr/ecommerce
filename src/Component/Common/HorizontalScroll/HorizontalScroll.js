@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './HorizontalScroll.css';
 import Img from '../../../image/all.png';
 import Food from '../../../image/food.png';
@@ -11,47 +11,39 @@ import LegalConsultancy from '../../../image/LegalConsultancy.png';
 import Wellness from '../../../image/Wellness.png';
 
 const HorizontalScroll = () => {
+  const [selectedCard, setSelectedCard] = useState(0); // Set the first card as selected by default
+
+  const handleCardClick = (index) => {
+    setSelectedCard(index);
+  };
+
+  const cards = [
+    { img: Img, text: "All" },
+    { img: Food, text: "Food" },
+    { img: Utilities, text: "Home utilities" },
+    { img: Gadget, text: "Electronic Gadget" },
+    { img: Clothing, text: "Clothing" },
+    { img: Furniture, text: "Furniture" },
+    { img: Beauty, text: "Beauty Products" },
+    { img: Wellness, text: "Health and Wellness" },
+    { img: LegalConsultancy, text: "Legal Consultancy" },
+  ];
+
   return (
     <div className="scroll-container">
       <div className="scroll-content">
-        <div className="card">
-          <img src={Img} alt="Placeholder"   height="100px" width="100px"/>
-          <p className="card-text">All</p>
-        </div>
-        <div className="card">
-        <img src={Food} alt="Placeholder"   height="100px" width="100px"/>
-          <p className="card-text">Food</p>
-        </div>
-        <div className="card">
-          <img src={Utilities} alt="Placeholder"  height="100px" width="100px"/>
-          <p className="card-text">Home utilities</p>
-        </div>
-        <div className="card">
-          <img src={Gadget} alt="Placeholder"  height="100px" width="100px"/>
-          <p className="card-text">Electronic Gadget</p>
-        </div>
-        <div className="card">
-          <img src={Clothing} alt="Placeholder" height="100px" width="100px" />
-          <p className="card-text">Clothing</p>
-        </div>
-        <div className="card">
-          <img src={Furniture} alt="Placeholder" height="100px" width="100px"/>
-          <p className="card-text">Furniture</p>
-        </div>
-        <div className="card">
-          <img src={Beauty} alt="Placeholder" height="100px" width="100px"/>
-          <p className="card-text">Beauty Products</p>
-        </div> 
-        <div className="card">
-          <img src={Wellness} alt="Placeholder" height="100px" width="100px"/>
-          <p className="card-text">Health and Wellness</p>
-        </div>
-        <div className="card">
-          <img src={LegalConsultancy} alt="Placeholder" height="100px" width="100px"/>
-          <p className="card-text">Legal Consultancy</p>
-        </div>
-        {/* Add more cards as needed */}
-      </div></div>
+        {cards.map((card, index) => (
+          <div
+            key={index}
+            className={`card ${selectedCard === index ? 'selected' : ''}`}
+            onClick={() => handleCardClick(index)}
+          >
+            <img src={card.img} alt={card.text} height="100px" width="100px" />
+            <p className="card-text">{card.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
