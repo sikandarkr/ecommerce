@@ -3,21 +3,28 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from "lodash";
 import { Avatar, Badge, Space, Select } from 'antd';
 import { useTranslation } from 'react-i18next'
+import { useNavigate,useLocation } from 'react-router-dom';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
 
 import './header.css';
+import { redirect } from 'react-router-dom';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { t,i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const noHrscroll = ['/cartSummary'];
     const handleChange = (e) => {
         console.log(e.value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
         i18n.changeLanguage(e.value);
         // i18n.changeLanguage(e.value);
-     };
-    
+    };
+    const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const redirectHandler = () => {
+        navigate('/cartSummary');
+    }
 
-    
     return (
         <>
             <header className="header">
@@ -47,12 +54,13 @@ const Header = () => {
                     <input type="" placeholder="Search Item" />
                     <button className="search-icon"><i className="fa fa-search" aria-hidden="true"></i></button>
                 </div>
-                <Badge count={9}>
+                <Badge count={localCart.length} onClick={redirectHandler} className='notification-badge'>
                     <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                 </Badge>
                 {/* <p>{t('home')}</p> */}
             </header>
-            <HorizontalScroll />
+            {!noHrscroll.includes(location.pathname) &&  <HorizontalScroll />}
+           
         </>
     )
 }
