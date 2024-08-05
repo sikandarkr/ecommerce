@@ -1,43 +1,97 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from "lodash";
-import { Avatar, Badge, Space, Select } from 'antd';
-import { useTranslation } from 'react-i18next'
-import { useNavigate,useLocation } from 'react-router-dom';
+import { Avatar, Badge, Space, Select, AutoComplete, Button } from 'antd';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { onSearch, onClear, fetchSuggestions,loadCartItems } from '../../../redux/actions/products';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
-
 import './header.css';
-import { redirect } from 'react-router-dom';
+
+const { Option } = Select;
 
 const Header = () => {
-    const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+    const [searchBy, setSearchBy] = useState('Product');
+    const suggestions = useSelector(state => state.products.suggestions);
+    const  cart = useSelector(state => state.products.cart);
+    const isLoggedIn = useSelector(state => state.user.auth);
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    // const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const noHrscroll = ['/cartSummary'];
-    const handleChange = (e) => {
-        console.log(e.value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-        i18n.changeLanguage(e.value);
-        // i18n.changeLanguage(e.value);
+
+
+   
+    const toggleMenu = () => {
+        setMenuVisible(!menuVisible);
     };
-    const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const handleLogin = () => {
+        navigate('/login');
+    };
+
+    const handleLanguageChange = (value) => {
+        i18n.changeLanguage(value);
+    };
+    const handleChange = (e) => {
+        console.log(e.value);
+        i18n.changeLanguage(e.value);
+    };
+    const handleSearch = (value) => {
+        setSearchValue(value);
+        if (value) {
+            dispatch(fetchSuggestions(value));
+        } else {
+            dispatch(onClear());
+        }
+    };
+    const handleSelect = (value) => {
+        dispatch(onSearch(value));
+    };
     const redirectHandler = () => {
         navigate('/cartSummary');
     }
 
+
+   
+    useEffect(() => {
+        const fetchCartItems = async () => {
+          try {
+            if (isLoggedIn) {
+              // const cartItems = await fetchCartItemsFromApi();
+              // dispatch(loadCartItems(cartItems));
+            } else {
+              const savedCartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+              if (Array.isArray(savedCartItems)) {
+                  console.log('Dispatching loadCartItems with:', savedCartItems);
+                  dispatch(loadCartItems(savedCartItems));
+              }
+            }
+          } catch (error) {
+            console.error('Failed to load cart items', error);
+          }
+        };
+    
+        fetchCartItems();
+      }, [dispatch, isLoggedIn]);
+
+      console.log("notificationCart", cart);
     return (
         <>
             <header className="header">
-                {/* <a href="/">Deliveroo</a> */}
+                <p>logo</p>
                 <Select
                     labelInValue
                     defaultValue={{
                         value: 'en',
                         label: 'select language',
                     }}
-                    style={{
-                        width: 80,
-                    }}
+                    className='select-locale'
                     onChange={handleChange}
                     options={[
                         {
@@ -51,19 +105,61 @@ const Header = () => {
                     ]}
                 />
                 <div className="search-container">
-                    <input type="" placeholder="Search Item" />
-                    <button className="search-icon"><i className="fa fa-search" aria-hidden="true"></i></button>
+                    <select
+                        className="search-by-dropdown"
+                        value={searchBy}
+                        onChange={(e) => setSearchBy(e.target.value)}
+                    >
+                        <option value="Product">Product</option>
+                        <option value="Store">Store</option>
+                    </select>
+                    <AutoComplete
+                        className='auto-complete'
+                        onSearch={debounce(handleSearch, 300)}
+                        onSelect={handleSelect}
+                        options={suggestions.map(item => ({ value: item.product_name || item.product_store_name }))}
+                        placeholder="Search Item"
+                    />
+                    <button className="search-icon">
+                        <i className="fa fa-search" aria-hidden="true"></i>
+                    </button>
                 </div>
-                <Badge count={localCart.length} onClick={redirectHandler} className='notification-badge'>
+                <Badge count={cart.length} onClick={redirectHandler} className='notification-badge'>
                     <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                 </Badge>
-                {/* <p>{t('home')}</p> */}
+                <i className="fa fa-bars menu-icon" aria-hidden="true" onClick={toggleMenu}></i>
             </header>
-            {!noHrscroll.includes(location.pathname) &&  <HorizontalScroll />}
-           
-        </>
-    )
-}
 
+            <div className={`sidenav-overlay ${menuVisible ? 'visible' : ''}`} onClick={toggleMenu}>
+                <div className={`sidenav ${menuVisible ? 'open' : ''}`} onClick={e => e.stopPropagation()}>
+                    <a href="javascript:void(0)" className="closebtn" onClick={toggleMenu}>&times;</a>
+                    <div className="sidenav-extra">
+                        <div className="top-left-container">
+                            <div className="logo">
+                                <img src="https://via.placeholder.com/50" alt="Logo" />
+                            </div>
+                            <Badge count={cart.length} className="cart-badge">
+                                <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </Badge>
+                        </div>
+                        <Avatar size={64} icon={<i className="fa fa-user" />} />
+                        <Button type="primary" block onClick={handleLogin}>Login</Button>
+                        <Select defaultValue={i18n.language} style={{ width: '100%' }} onChange={handleLanguageChange}>
+                            <Option value="en">English</Option>
+                            <Option value="es">Español</Option>
+                            <Option value="fr">Français</Option>
+                            <Option value="de">Deutsch</Option>
+                        </Select>
+                        <Select defaultValue="Filter" style={{ width: '100%' }} onChange={(value) => console.log('Filter changed:', value)}>
+                            <Option value="option1">Option 1</Option>
+                            <Option value="option2">Option 2</Option>
+                        </Select>
+                    </div>
+                </div>
+            </div>
+            {!noHrscroll.includes(location.pathname) && <HorizontalScroll />}
+        </>
+    );
+};
 
 export default Header;

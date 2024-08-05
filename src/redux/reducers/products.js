@@ -4,6 +4,10 @@ const initialState = {
     productList: [],
     cart: [],
     cardaddloader: false,
+    suggestions: [],
+    searchResults: [],
+    notificationCart: []
+
 };
 
 export default function products(state = initialState, action) {
@@ -30,6 +34,44 @@ export default function products(state = initialState, action) {
                 ...state,
                 cart: [...state.cart, action.payload],
                 cartaddloader: false,
+            };
+        case "FETCH_SUGGESTIONS_SUCCESS":
+            return {
+                ...state,
+                suggestions: action.suggestions,
+            };
+        case "SEARCH_REQUESTED":
+            return {
+                ...state,
+                searchResults: action.payload,
+            };
+        case "CLEAR_SEARCH":
+            return {
+                ...state,
+                searchResults: [],
+            };
+        case "UPDATE_CART_LOCAL":
+            console.log("Payload:", action.payload);
+            const updatedNotificationCart = Array.isArray(action.payload) ? action.payload : [];
+            console.log("Updated Notification Cart:", updatedNotificationCart);
+            return {
+                ...state,
+                cart: updatedNotificationCart,
+            };
+        case "UPDATE_CART_COUNT":
+            console.log("Payload:", action.payload);
+            const newCartItem = action.payload;
+            const exists = state.cart.some(obj => obj.product_id === newCartItem.product_id);
+            return {
+                ...state,
+                cart: exists ? state.cart : state.cart.concat(newCartItem)
+            };
+        case "REMOVE_CART":
+            const productIdToRemove = action.payload;
+            console.log("productIdToRemove...",productIdToRemove);
+            return {
+                ...state,
+                cart: state.cart.filter(item => item.product_id !== productIdToRemove)
             };
         default:
             return state;

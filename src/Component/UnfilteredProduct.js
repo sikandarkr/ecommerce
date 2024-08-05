@@ -8,8 +8,6 @@ const UnfilteredProduct = ({ items = [] }) => {
   }
 
   const groupedItems = groupByProductType(items);
-
-  console.log("From unfiltered list*****************", items);
   return (
     <div className="productContainer">
       {Object.keys(groupedItems).map((productType) => (
