@@ -78,3 +78,27 @@
 .add-to-cart-btn:hover {
   background-color: #e68a00;
 }
+.quantity-controls{
+  border-radius: 25px;
+  background: #fff;
+  color: #0075e8;
+  line-height: 32px;
+  width: 79px !important;
+    height: 32px !important;
+  font-weight: 500;
+  padding: 0 2px;
+  border: 1.5px solid #0075e8;
+}
+.increment-decrement-btn{
+  background: transparent none repeat scroll 0 0;
+  border: none;
+  font-weight: 100;
+  font-size: 20px;
+  color: #0075e8;
+  width: 33%;
+  outline: 0;
+  padding: 1px 6px;
+}
+.increment-decrement-btn:hover{
+  cursor: pointer;
+}
