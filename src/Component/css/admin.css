@@ -1,81 +1,54 @@
-/* admin.css */
-.adminForm {
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 5%;
-    margin-bottom: 10%;
-    padding: 20px;
-    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    /* Ensure form background is white */
+.admin-container {
+  text-align: center;
+  padding: 40px;
+  background: #f0f2f5;
+  min-height: 100vh;
 }
 
-.page-title-details {
-    padding: 10px 0;
-    border: 1px solid gray;
-    margin-bottom: 20px;
+.admin-header {
+  position: relative;
+  margin-bottom: 30px;
 }
 
-.page-title-details h2 {
-    text-align: center;
-    margin: 0;
+.admin-header h1 {
+  font-size: 2.5em;
+  color: #f0a849;
+  margin: 0;
+  padding: 0;
+  background: -webkit-linear-gradient(#f0a849, #ffa726);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 3s ease infinite;
 }
 
-.ant-form-item {
-    margin-bottom: 20px;
+.header-decoration {
+  width: 120px;
+  height: 5px;
+  background-color: #f0a849;
+  margin: 10px auto 0;
+  border-radius: 5px;
 }
 
-.ant-form-item-label>label {
-    font-weight: bold;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.ant-input,
-.ant-select-selector,
-.ant-upload {
-    border-radius: 4px;
-    /* Match the default Ant Design border radius */
+.ant-tabs {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.ant-btn-primary {
-    background-color: green;
-    border-color: green;
-}
-
-.ant-btn-primary:hover {
-    background-color: darkgreen;
-    border-color: darkgreen;
-}
-
-.upload-btn:hover {
-    background-color: rgb(19, 108, 19);
-}
-.imgUpContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.image-preview {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.image-preview img {
-    max-width: 150px;
-    max-height: 150px;
-    border: 1px solid #dddddd;
-    padding: 5px;
-}
-
-.lat_long {
-    display: flex;
-    align-items: flex-end;
-    /* background-color: aqua; */
-    justify-content: end;
-    padding: 0;
-}
-
-.lat_long_btn {
-    height: 30px;
-    padding: 0;
+.ant-tabs-nav .ant-tabs-tab {
+  font-size: 1.2em;
+  font-weight: 500;
 }
