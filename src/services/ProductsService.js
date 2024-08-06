@@ -1,6 +1,6 @@
 // UniversityService.ts
 
-import { fetchProductsList, addToCart,fetchSuggestionsApi } from "./ApiService";
+import { fetchProductsList, addToCart, fetchSuggestionsApi,fetchFilterApi } from "./ApiService";
 
 import {
   getFromLocalStorage,
@@ -39,12 +39,21 @@ class ProductsService {
   }
   static async fetchSuggestions(query) {
     try {
-        const data = await fetchSuggestionsApi(query);
-        return data;
+      const data = await fetchSuggestionsApi(query);
+      return data;
     } catch (error) {
-        console.error("Error fetching suggestions:", error.message);
-        throw error;
+      console.error("Error fetching suggestions:", error.message);
+      throw error;
     }
-}
+  }
+  static async fetchSearchResultsFilter(query) {
+    try {
+      const data = await fetchFilterApi(query);
+      return data;
+    } catch (error) {
+      console.error("Error fetching suggestions:", error.message);
+      throw error;
+    }
+  }
 }
 export default ProductsService;

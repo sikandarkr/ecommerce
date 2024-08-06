@@ -7,16 +7,10 @@ import FilteredProduct from '../FilteredProducts';
 import { getProducts } from '../../redux/actions/products';
 function Dashboard() {
   const [showUnfliter, setFilter] = useState(true)
-  const item = {
-    image: 'https://via.placeholder.com/150',
-    name: 'Sample Product',
-    price: 999,
-    rating: 4
-  };
   const dispatch = useDispatch();
   const products = useSelector(state => state.products);
   useEffect(() => {
-
+    console.log("Products...", products);
     dispatch(getProducts());
   }, [])
 
@@ -24,8 +18,9 @@ function Dashboard() {
   return (
     <div className="App">
       <CrousalContainer />
-      {showUnfliter ? <UnfilteredProduct items={products && products.productList
-      } /> : <FilteredProduct />}
+      {products.filter == "All" ? <UnfilteredProduct items={products && products.productList
+      } /> : <FilteredProduct items={products && products.productList
+      } />}
     </div>
   );
 }

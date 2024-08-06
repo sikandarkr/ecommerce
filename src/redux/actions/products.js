@@ -49,3 +49,19 @@ export const removeCart =(payload)=>{
     payload,
   };
 }
+
+export const fetchSearchResults =(payload)=>{
+  return {
+    type: type.SEARCH_FILTER_REQUESTING,
+    payload,
+  };
+}
+
+export const applyFilter=(payload)=>{
+  console.log("apply filter...",payload);
+  return {
+    type: type.APPLY_FILTER,
+    payload,
+  };
+   
+}

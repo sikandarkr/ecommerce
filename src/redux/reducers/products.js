@@ -6,7 +6,8 @@ const initialState = {
     cardaddloader: false,
     suggestions: [],
     searchResults: [],
-    notificationCart: []
+    notificationCart: [],
+    filter:"All"
 
 };
 
@@ -72,6 +73,11 @@ export default function products(state = initialState, action) {
             return {
                 ...state,
                 cart: state.cart.filter(item => item.product_id !== productIdToRemove)
+            };
+        case "APPLY_FILTER":
+            return {
+                ...state,
+                filter: action.payload.filter
             };
         default:
             return state;

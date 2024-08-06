@@ -125,6 +125,11 @@ function CartSummaryList() {
                         onChange={(e) => setMobile(e.target.value)}
                     />
                     <textarea
+                        placeholder="Landmark"
+                        value={billingAddress}
+                        onChange={(e) => setBillingAddress(e.target.value)}
+                    ></textarea>
+                    <textarea
                         placeholder="Address"
                         value={billingAddress}
                         onChange={(e) => setBillingAddress(e.target.value)}

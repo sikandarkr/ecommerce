@@ -46,4 +46,19 @@ const fetchSuggestionsApi =async(params)=>{
     throw new Error("Failed to add item to cart");
   }
 }
-export { fetchProductsList ,addToCart,fetchSuggestionsApi};
+
+const fetchFilterApi =async(params)=>{
+  try {
+    const response = await axios.post(SEARCH_API, params, {
+      headers: {
+        'Content-Type': 'application/json',  // Ensure correct Content-Type header
+      },
+    });
+    console.log("Response Data:", response.data);  // For debugging
+    return response.data;
+  } catch (error) {
+    console.error("Error in addToCart:", error.response ? error.response.data : error.message);
+    throw new Error("Failed to add item to cart");
+  }
+}
+export { fetchProductsList ,addToCart,fetchSuggestionsApi,fetchFilterApi};

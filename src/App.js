@@ -6,6 +6,7 @@ const Header =React.lazy(() => import("./Component/Common/Header/Header"));
 // const  HorizontalScroll  =React.lazy(() => import("./Component/Common/HorizontalScroll/HorizontalScroll"));
 const  Dashboard = React.lazy(() => import("./Component/Pages/Dashboard"));
 const  CartSummaryList = React.lazy(() => import("./Component/Pages/CartSummaryList"));
+const Shop = React.lazy(()=>import("./Component/Pages/Shop")); 
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,14 @@ function App() {
           element={
             <React.Suspense fallback={<>...</>}>
               <CartSummaryList />
+            </React.Suspense>
+          }
+        />
+         <Route
+          path="filtered/product&shop"
+          element={
+            <React.Suspense fallback={<>...</>}>
+              <Shop />
             </React.Suspense>
           }
         />

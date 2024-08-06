@@ -1,0 +1,81 @@
+.productContainer {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.productCard {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    padding: 20px;
+}
+
+.productCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.productImage {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.productDetails {
+    text-align: center;
+}
+
+.productName {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+}
+
+.productPrice, .productStoreName {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
+.productActions {
+    display: flex;
+    justify-content: center;
+}
+
+.addToCart {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.addToCart:hover {
+    background-color: #0056b3;
+}
+
+.emptyBanner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #777;
+    font-size: 1.5rem;
+    font-weight: 600;
+}

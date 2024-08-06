@@ -1,10 +1,10 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { debounce } from "lodash";
+import { debounce, uniqBy } from "lodash";
 import { Avatar, Badge, Space, Select, AutoComplete, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { onSearch, onClear, fetchSuggestions,loadCartItems } from '../../../redux/actions/products';
+import { onSearch, onClear, fetchSuggestions, loadCartItems } from '../../../redux/actions/products';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
 import './header.css';
 
@@ -15,9 +15,10 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-    const [searchBy, setSearchBy] = useState('Product');
+
+    const [searchBy, setSearchBy] = useState('product');
     const suggestions = useSelector(state => state.products.suggestions);
-    const  cart = useSelector(state => state.products.cart);
+    const cart = useSelector(state => state.products.cart);
     const isLoggedIn = useSelector(state => state.user.auth);
     const [menuVisible, setMenuVisible] = useState(false);
     const [searchValue, setSearchValue] = useState('');
@@ -26,7 +27,7 @@ const Header = () => {
     const noHrscroll = ['/cartSummary'];
 
 
-   
+
     const toggleMenu = () => {
         setMenuVisible(!menuVisible);
     };
@@ -51,36 +52,40 @@ const Header = () => {
         }
     };
     const handleSelect = (value) => {
-        dispatch(onSearch(value));
+        console.log("Handle Select...", value);
+        setSearchValue(value);
+        // dispatch(onSearch(value));
     };
     const redirectHandler = () => {
         navigate('/cartSummary');
     }
+    const SearchByFilter = () => {
+        navigate(`/filtered/product&shop`, { state: { searchKey: searchValue, searchBy: searchBy } });
+    }
 
 
-   
     useEffect(() => {
         const fetchCartItems = async () => {
-          try {
-            if (isLoggedIn) {
-              // const cartItems = await fetchCartItemsFromApi();
-              // dispatch(loadCartItems(cartItems));
-            } else {
-              const savedCartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-              if (Array.isArray(savedCartItems)) {
-                  console.log('Dispatching loadCartItems with:', savedCartItems);
-                  dispatch(loadCartItems(savedCartItems));
-              }
+            try {
+                if (isLoggedIn) {
+                    // const cartItems = await fetchCartItemsFromApi();
+                    // dispatch(loadCartItems(cartItems));
+                } else {
+                    const savedCartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+                    if (Array.isArray(savedCartItems)) {
+                        console.log('Dispatching loadCartItems with:', savedCartItems);
+                        dispatch(loadCartItems(savedCartItems));
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load cart items', error);
             }
-          } catch (error) {
-            console.error('Failed to load cart items', error);
-          }
         };
-    
-        fetchCartItems();
-      }, [dispatch, isLoggedIn]);
 
-      console.log("notificationCart", cart);
+        fetchCartItems();
+    }, [dispatch, isLoggedIn]);
+    const uniqueSuggestions = uniqBy(suggestions, item => searchBy === 'product' ? item.product_name : item.product_store_name);
+    console.log("notificationCart", cart);
     return (
         <>
             <header className="header">
@@ -110,17 +115,19 @@ const Header = () => {
                         value={searchBy}
                         onChange={(e) => setSearchBy(e.target.value)}
                     >
-                        <option value="Product">Product</option>
-                        <option value="Store">Store</option>
+                        <option value="product">Product</option>
+                        <option value="store">Store</option>
                     </select>
                     <AutoComplete
                         className='auto-complete'
                         onSearch={debounce(handleSearch, 300)}
                         onSelect={handleSelect}
-                        options={suggestions.map(item => ({ value: item.product_name || item.product_store_name }))}
+                        options={uniqueSuggestions.map(item => ({
+                            value: searchBy === 'product' ? item.product_name : item.product_store_name,
+                        }))}
                         placeholder="Search Item"
                     />
-                    <button className="search-icon">
+                    <button className="search-icon" onClick={SearchByFilter}>
                         <i className="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -150,9 +157,9 @@ const Header = () => {
                             <Option value="fr">Français</Option>
                             <Option value="de">Deutsch</Option>
                         </Select>
-                        <Select defaultValue="Filter" style={{ width: '100%' }} onChange={(value) => console.log('Filter changed:', value)}>
-                            <Option value="option1">Option 1</Option>
-                            <Option value="option2">Option 2</Option>
+                        <Select defaultValue="Product" style={{ width: '100%' }} onChange={(value) => setSearchBy(value)}>
+                            <Option value="product">Product</Option>
+                            <Option value="store">Store</Option>
                         </Select>
                     </div>
                 </div>
