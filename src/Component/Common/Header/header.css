@@ -11,6 +11,13 @@
   --transition: all 0.3s ease;
 }
 
+.logo{
+
+}
+.logo:hover{
+  cursor: pointer;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -214,6 +221,35 @@
   justify-content: flex-start;
   /* width:90%; */
 }
+/* Add this CSS to your styles */
+.clear-filter {
+  background-color: lightgray; /* A nice red color */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Makes the button circular */
+  width: 15px; /* Width of the button */
+  height: 15px; /* Height of the button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left:15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Adds transition for hover effect */
+}
+
+.clear-filter:hover {
+  background-color: lightgray; /* A lighter red on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly bigger shadow on hover */
+}
+
+/* Optional: For better accessibility */
+.clear-filter:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(62, 62, 62, 0.132); /* Focus ring for better accessibility */
+}
+
+
 
 @media (max-width: 768px) {
   .menu-icon {

@@ -7,8 +7,10 @@ const initialState = {
     suggestions: [],
     searchResults: [],
     notificationCart: [],
-    filter:"All"
-
+    filter:"All",
+    orderDetails:{},
+    showpopup:false,
+    spinner:false
 };
 
 export default function products(state = initialState, action) {
@@ -60,7 +62,6 @@ export default function products(state = initialState, action) {
                 cart: updatedNotificationCart,
             };
         case "UPDATE_CART_COUNT":
-            console.log("Payload:", action.payload);
             const newCartItem = action.payload;
             const exists = state.cart.some(obj => obj.product_id === newCartItem.product_id);
             return {
@@ -79,6 +80,32 @@ export default function products(state = initialState, action) {
                 ...state,
                 filter: action.payload.filter
             };
+        case "PLACE_ORDER_REQUESTING":
+            return {
+                ...state,
+                spinner: true
+            }
+        case "PLACE_ORDER_SUCCESS":
+            return {
+                ...state,
+                orderDetails: action.data,
+                spinner: false,
+                showpopup:true
+            }
+        case "PLACE_ORDER_FAILURE":
+            return {
+                ...state,
+                spinner: false,
+                showpopup:true
+            }
+        case "CLOSE_POP_UP":
+            return {
+                ...state,
+                showpopup:false,
+                cart: []
+
+            }
+
         default:
             return state;
     }

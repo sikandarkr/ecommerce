@@ -1,6 +1,7 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as type from '../types';
 import fetchProductsLists from "../../services/ProductsService";
+// import { placeOrder } from '../actions/products';
 
 function* fetchProducts(action) {
    try {
@@ -47,11 +48,22 @@ function* fetchSearchResults(action){
   }
 }
 
+function* placeOrder(action){
+    try {
+        const orderDetail = yield call(fetchProductsLists.placeOrderService, action.payload);
+        yield put({type: 'PLACE_ORDER_SUCCESS', data: orderDetail});
+    } catch (e) {
+        console.error(e);
+        yield put({ type: 'PLACE_ORDER_FAILURE', message: e.message });
+    }
+}
+
 function* ProductSaga() {
    yield takeLatest('GET_PRODUCTS_REQUESTED', fetchProducts);
    yield takeEvery(type.ADD_TO_CART_REQUESTED, addToCartSaga);
    yield takeLatest(type.FETCH_SUGGESTIONS_REQUESTED, fetchSuggestionsSaga);
-   yield takeLatest(type.SEARCH_FILTER_REQUESTING,fetchSearchResults)
+   yield takeLatest(type.SEARCH_FILTER_REQUESTING,fetchSearchResults);
+   yield takeLatest(type.PLACE_ORDER_REQUESTING, placeOrder);
 }
 
 export default ProductSaga;

@@ -1,6 +1,6 @@
 // UniversityService.ts
 
-import { fetchProductsList, addToCart, fetchSuggestionsApi,fetchFilterApi } from "./ApiService";
+import { fetchProductsList, addToCart, fetchSuggestionsApi,fetchFilterApi,placeOrderApi } from "./ApiService";
 
 import {
   getFromLocalStorage,
@@ -49,6 +49,15 @@ class ProductsService {
   static async fetchSearchResultsFilter(query) {
     try {
       const data = await fetchFilterApi(query);
+      return data;
+    } catch (error) {
+      console.error("Error fetching suggestions:", error.message);
+      throw error;
+    }
+  }
+  static async placeOrderService(payload) {
+    try {
+      const data = await placeOrderApi(payload);
       return data;
     } catch (error) {
       console.error("Error fetching suggestions:", error.message);

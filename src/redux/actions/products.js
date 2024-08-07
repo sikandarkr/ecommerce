@@ -65,3 +65,16 @@ export const applyFilter=(payload)=>{
   };
    
 }
+
+export const placeOrder =(payload)=>{
+  return {
+    type: type.PLACE_ORDER_REQUESTING,
+    payload,
+  };
+}
+
+export const closePopUp=()=>{
+  return {
+    type: "CLOSE_POP_UP",
+  };
+}

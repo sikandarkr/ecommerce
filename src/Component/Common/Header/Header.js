@@ -4,12 +4,11 @@ import { debounce, uniqBy } from "lodash";
 import { Avatar, Badge, Space, Select, AutoComplete, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { onSearch, onClear, fetchSuggestions, loadCartItems } from '../../../redux/actions/products';
+import { onSearch, onClear, fetchSuggestions, loadCartItems, fetchSearchResults, getProducts } from '../../../redux/actions/products';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
+import logocolor from '../../../image/logocolor.png';
 import './header.css';
-
 const { Option } = Select;
-
 const Header = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
@@ -25,6 +24,7 @@ const Header = () => {
     // const localCart = JSON.parse(localStorage.getItem('cart')) || [];
     const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const noHrscroll = ['/cartSummary'];
+    const search = ['/'];
 
 
 
@@ -60,9 +60,15 @@ const Header = () => {
         navigate('/cartSummary');
     }
     const SearchByFilter = () => {
-        navigate(`/filtered/product&shop`, { state: { searchKey: searchValue, searchBy: searchBy } });
+        // console.log("Enter Key is pressed");
+        dispatch(fetchSearchResults({ "searchKey": searchValue }));
     }
 
+    const clearFilter = () => {
+        setSearchValue('');
+        dispatch(getProducts());
+        // console.log("Hello from clear filter");
+    }
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -84,12 +90,16 @@ const Header = () => {
 
         fetchCartItems();
     }, [dispatch, isLoggedIn]);
+
+
+
+
     const uniqueSuggestions = uniqBy(suggestions, item => searchBy === 'product' ? item.product_name : item.product_store_name);
-    console.log("notificationCart", cart);
     return (
         <>
             <header className="header">
-                <p>logo</p>
+                <img src={logocolor} height="40px" width="40px" onClick={() => navigate('/')} />
+
                 <Select
                     labelInValue
                     defaultValue={{
@@ -109,7 +119,7 @@ const Header = () => {
                         },
                     ]}
                 />
-                <div className="search-container">
+                {search.includes(location.pathname) && <div className="search-container">
                     <select
                         className="search-by-dropdown"
                         value={searchBy}
@@ -122,15 +132,23 @@ const Header = () => {
                         className='auto-complete'
                         onSearch={debounce(handleSearch, 300)}
                         onSelect={handleSelect}
+                        onKeyDown={SearchByFilter}
                         options={uniqueSuggestions.map(item => ({
                             value: searchBy === 'product' ? item.product_name : item.product_store_name,
                         }))}
                         placeholder="Search Item"
+                        value={searchValue} // Bind searchValue to AutoComplete
                     />
+                    {searchValue.length >= 3 && (
+                        <button className='clear-filter' onClick={clearFilter}>
+                            <i className='fa fa-times'></i>
+                        </button>
+                    )}
                     <button className="search-icon" onClick={SearchByFilter}>
                         <i className="fa fa-search" aria-hidden="true"></i>
                     </button>
-                </div>
+                </div>}
+
                 <Badge count={cart.length} onClick={redirectHandler} className='notification-badge'>
                     <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                 </Badge>
@@ -170,3 +188,5 @@ const Header = () => {
 };
 
 export default Header;
+
+

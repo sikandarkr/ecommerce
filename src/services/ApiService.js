@@ -6,6 +6,7 @@ const API_URL =
   "https://qualitytechlab.com/rest-api/addToCart.php";
   const SEARCH_API =
   "https://qualitytechlab.com/rest-api/search.php";
+  const ORDER_API = "https://qualitytechlab.com/rest-api/createorders.php";
 
 const fetchProductsList = async () => {
   try {
@@ -61,4 +62,18 @@ const fetchFilterApi =async(params)=>{
     throw new Error("Failed to add item to cart");
   }
 }
-export { fetchProductsList ,addToCart,fetchSuggestionsApi,fetchFilterApi};
+
+const placeOrderApi = async(params)=>{
+  try {
+    const response = await axios.post(ORDER_API, params, {
+      headers: {
+        'Content-Type': 'application/json',  // Ensure correct Content-Type header
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in addToCart:", error.response ? error.response.data : error.message);
+    throw new Error("Failed to add item to cart");
+  }
+}
+export { fetchProductsList ,addToCart,fetchSuggestionsApi,fetchFilterApi,placeOrderApi};

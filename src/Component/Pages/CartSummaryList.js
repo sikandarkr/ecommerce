@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeCart } from '../../redux/actions/products';
+import { Alert, Flex, Spin } from 'antd';
+import { removeCart, placeOrder } from '../../redux/actions/products';
+import OrderSuccessPopup from '../Common/OrderSuccessPopup/OrderSuccessPopup';
 import '../css/cartsummarylist.css'; // Ensure this CSS file is created
 
 function CartSummaryList() {
     const products = useSelector(state => state.products.productData);
+    const loader = useSelector(state => state.products.loader);
+    const spinner = useSelector(state => state.products.spinner);
     const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [totalPrice, setTotalPrice] = useState(0);
     const [billingAddress, setBillingAddress] = useState("");
+    const [landMarkAddress, setLandmarkAddress] = useState("");
     const [name, setName] = useState("");
     const [mobile, setMobile] = useState("");
+    const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
+
     useEffect(() => {
         const total = localCart.reduce((acc, item) => {
             const product = products.find(p => p.product_id === item.product_id);
@@ -24,16 +31,6 @@ function CartSummaryList() {
         setLocalCart(JSON.parse(localStorage.getItem('cart')) || []);
     }, [products]);
 
-    // const handleQuantityChange = (productId, change) => {
-    //     setLocalCart(prevCart => {
-    //         const updatedCart = prevCart.map(item => 
-    //             item.product_id === productId ? { ...item, quantity: item.quantity + change } : item
-    //         ).filter(item => item.quantity > 0);
-
-    //         localStorage.setItem('cart', JSON.stringify(updatedCart));
-    //         return updatedCart;
-    //     });
-    // };
 
     const handleQuantityChange = (productId, change) => {
         setLocalCart(prevCart => {
@@ -75,76 +72,139 @@ function CartSummaryList() {
         }
     };
 
+    const getOrderDetails = () => {
+        return localCart.map(cartItem => {
+            const product = products.find(p => p.product_id === cartItem.product_id);
+            console.log("Need to find store id", product);
+            if (product) {
+                return {
+                    product_id: product.product_id,
+                    product_store_id: product.product_store_id,
+                    product_name: product.product_name,
+                    product_price: product.product_price,
+                    quantity: cartItem.quantity,
+                    total_price: product.product_price * cartItem.quantity,
+                };
+            }
+            return null;
+        }).filter(item => item !== null);
+    };
+    const validateForm = () => {
+        let formErrors = {};
+        if (!name) formErrors.name = "Name is required.";
+        if (!mobile) {
+            formErrors.mobile = "Mobile number is required.";
+        } else if (!/^\d{10}$/.test(mobile)) {
+            formErrors.mobile = "Invalid mobile number.";
+        }
+        if (!landMarkAddress) formErrors.landMarkAddress = "Please give as landmark address to serve better"
+        if (!billingAddress) formErrors.billingAddress = "Address is required.";
+        return formErrors;
+    };
+    const placeOrderHandler = () => {
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
+        const orderDetails = getOrderDetails();
+        const billingDetails = {
+            name,
+            mobile,
+            billingAddress,
+            landMarkAddress
+        };
+        const combinedDetails = {
+            orderDetails,
+            billingDetails,
+            totalPrice
+        };
+        const payload = JSON.stringify(combinedDetails);
+        dispatch(placeOrder(payload));
+    }
+
+   
     return (
-        <div className="cart-summary-container">
-            <div className="order-summary">
-                <h2>
-                    Order Summary
-                    <span className="item-count">{localCart.length} items</span>
-                </h2>
-                <hr />
-                {localCart.map(cartItem => {
-                    const product = products.find(p => p.product_id === cartItem.product_id);
-                    return product ? (
-                        <div key={product.product_id} className="product-item">
-                            <img src={product.product_image} alt={product.product_name} className="product-image" />
-                            <div className="product-details">
-                                <div className="product-header">
-                                    <h3>{product.product_name}</h3>
-                                </div>
-                                <p>Price: ₹{product.product_price}</p>
-                                <p>Store: {product.product_store_name}</p>
-                                <div className="quantity-remove-container">
-                                    <div className="quantity-control">
-                                        <button onClick={() => handleQuantityChange(product.product_id, -1)}>-</button>
-                                        <span>{cartItem.quantity}</span>
-                                        <button onClick={() => handleQuantityChange(product.product_id, 1)}>+</button>
+        <Spin spinning={loader} tip="Loading" size="large">
+            <div className="cart-summary-container">
+                <div className="order-summary">
+                    <h2>
+                        Order Summary
+                        <span className="item-count">{localCart.length} items</span>
+                    </h2>
+                    <hr />
+                    {localCart.map(cartItem => {
+                        const product = products.find(p => p.product_id === cartItem.product_id);
+                        return product ? (
+                            <div key={product.product_id} className="product-item">
+                                <img src={product.product_image} alt={product.product_name} className="product-image" />
+                                <div className="product-details">
+                                    <div className="product-header">
+                                        <h3>{product.product_name}</h3>
                                     </div>
-                                    <button className="remove-button" onClick={() => handleRemoveItem(product.product_id)}>
-                                        <i className="fa fa-trash" aria-hidden="true"></i> Remove
-                                    </button>
+                                    <p>Price: ₹{product.product_price}</p>
+                                    <p>Store: {product.product_store_name}</p>
+                                    <div className="quantity-remove-container">
+                                        <div className="quantity-control">
+                                            <button onClick={() => handleQuantityChange(product.product_id, -1)}>-</button>
+                                            <span>{cartItem.quantity}</span>
+                                            <button onClick={() => handleQuantityChange(product.product_id, 1)}>+</button>
+                                        </div>
+                                        <button className="remove-button" onClick={() => handleRemoveItem(product.product_id)}>
+                                            <i className="fa fa-trash" aria-hidden="true"></i> Remove
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : null;
-                })}
-            </div>
-            <div className="delivery-details">
-                <h2>Delivery Details</h2>
-                <form>
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Mobile"
-                        value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
-                    />
-                    <textarea
-                        placeholder="Landmark"
-                        value={billingAddress}
-                        onChange={(e) => setBillingAddress(e.target.value)}
-                    ></textarea>
-                    <textarea
-                        placeholder="Address"
-                        value={billingAddress}
-                        onChange={(e) => setBillingAddress(e.target.value)}
-                    ></textarea>
-                    <button type="button" className="location-button" onClick={handleGetCurrentLocation}>
-                        Use Current Location
-                    </button>
-                </form>
-                <div className="price-details">
-                    <h3>Price Details</h3>
-                    <p className="total-price">Total Price: ₹{totalPrice}</p>
+                        ) : null;
+                    })}
                 </div>
-                <button className="order-button">Place Order</button>
+                <OrderSuccessPopup  />
+                <div className="delivery-details">
+                    <h2>Delivery Details</h2>
+                    <form>
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            maxlength="15"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        {errors.name && <span className="error-message animated">{errors.name}</span>}
+                        <input
+                            type="mobile"
+                            maxlength="10"
+                            placeholder="Mobile"
+                            value={mobile}
+                            onChange={(e) => setMobile(e.target.value)}
+                        />
+                        {errors.mobile && <span className="error-message animated">{errors.mobile}</span>}
+                        <textarea
+                            placeholder="Land Mark Nearby"
+                            value={landMarkAddress}
+                            maxlength="60"
+                            onChange={(e) => setLandmarkAddress(e.target.value)}
+                        ></textarea>
+                        {errors.landMarkAddress && <span className="error-message animated">{errors.landMarkAddress}</span>}
+                        <textarea
+                            placeholder="Address"
+                            value={billingAddress}
+                            maxlength="60"
+                            onChange={(e) => setBillingAddress(e.target.value)}
+                        ></textarea>
+                        {errors.billingAddress && <span className="error-message animated">{errors.billingAddress}</span>}
+                        <button type="button" className="location-button" onClick={handleGetCurrentLocation}>
+                            Use Current Location
+                        </button>
+                    </form>
+                    <div className="price-details">
+                        <h3>Price Details</h3>
+                        <p className="total-price">Total Price: ₹{totalPrice}</p>
+                    </div>
+                    <button className="order-button" onClick={placeOrderHandler}>{spinner ? <Spin size="small" /> : <span>Place Order</span>}</button>
+                </div>
             </div>
-        </div>
+        </Spin>
     );
 }
 

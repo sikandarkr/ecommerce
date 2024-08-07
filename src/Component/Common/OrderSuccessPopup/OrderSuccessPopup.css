@@ -1,0 +1,44 @@
+/* OrderSuccessPopup.css */
+.order-success-modal .ant-modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+    animation: popup-show 0.3s ease-out;
+}
+
+@keyframes popup-show {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.popup-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.success-icon {
+    font-size: 50px;
+    color: #52c41a;
+    margin-bottom: 20px;
+}
+
+.popup-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.popup-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.popup-content button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
