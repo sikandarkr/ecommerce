@@ -14,34 +14,29 @@ const contentStyle = {
   borderRadius: 4,
 };
 
-const content = <div style={contentStyle} />
 function Dashboard() {
-  const [showUnfliter, setFilter] = useState(true)
   const dispatch = useDispatch();
   const products = useSelector(state => state.products);
-  const loader = useSelector(state => state.products.loader);
+  const loading = useSelector(state => state.products.loading);
   useEffect(() => {
-    console.log("Products...", products);
     dispatch(getProducts());
   }, [])
-
-  console.log("Products list...", products);
   return (
     <div className="App">
       <CrousalContainer />
-      <Spin spinning={loader} tip="Loading" size="large">
+      <Spin spinning={loading} tip="Just a moment.." size="large">
         {products.filter === "All" ? (
           <UnfilteredProduct items={products && products.productList} />
         ) : (
           <FilteredProduct items={products && products.productList} />
         )}
-      </Spin>
 
+      </Spin>
       {/*       
       {products.filter == "All" ? <UnfilteredProduct items={products && products.productList
       } /> : <FilteredProduct items={products && products.productList
       } />} */}
-      
+
     </div>
   );
 }

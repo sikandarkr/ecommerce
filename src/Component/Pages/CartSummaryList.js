@@ -1,23 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Flex, Spin } from 'antd';
-import { removeCart, placeOrder } from '../../redux/actions/products';
+import { Alert, Flex, Spin, Empty } from 'antd';
+import { removeCart, placeOrder, sendOtp } from '../../redux/actions/products';
 import OrderSuccessPopup from '../Common/OrderSuccessPopup/OrderSuccessPopup';
+import OTPVerificationModal from '../Common/OTPVerificationModal/OTPVerificationModal';
 import '../css/cartsummarylist.css'; // Ensure this CSS file is created
 
 function CartSummaryList() {
     const products = useSelector(state => state.products.productData);
+    const orderSummary = useSelector(state => state.products);
     const loader = useSelector(state => state.products.loader);
     const spinner = useSelector(state => state.products.spinner);
+    const otpStatus = useSelector(state => state.products.otpStatus);
     const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [totalPrice, setTotalPrice] = useState(0);
     const [billingAddress, setBillingAddress] = useState("");
     const [landMarkAddress, setLandmarkAddress] = useState("");
     const [name, setName] = useState("");
     const [mobile, setMobile] = useState("");
+    const [otp, setOtp] = useState(['', '', '', '']);
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
+    const handleChange = (e, index) => {
+        const { value } = e.target;
+        if (/^[0-9]$/.test(value) || value === '') {
+            const newOtp = [...otp];
+            newOtp[index] = value;
+            setOtp(newOtp);
+            // Move to the next input field if value is entered
+            if (index < 3 && value !== '') {
+                document.getElementById(`otp-input-${index + 1}`).focus();
+            }
+        }
+    };
 
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Backspace') {
+            const newOtp = [...otp];
+            newOtp[index] = '';  // Clear the current input
+            setOtp(newOtp);
+        }
+    };
+
+    const onClose = () =>{
+        dispatch({type:"CLOSE_OTP_MODAL"})
+    }
+   
     useEffect(() => {
         const total = localCart.reduce((acc, item) => {
             const product = products.find(p => p.product_id === item.product_id);
@@ -75,10 +103,10 @@ function CartSummaryList() {
     const getOrderDetails = () => {
         return localCart.map(cartItem => {
             const product = products.find(p => p.product_id === cartItem.product_id);
-            console.log("Need to find store id", product);
             if (product) {
                 return {
                     product_id: product.product_id,
+                    owner_mobile: product.owner_mobile,
                     product_store_id: product.product_store_id,
                     product_name: product.product_name,
                     product_price: product.product_price,
@@ -107,23 +135,31 @@ function CartSummaryList() {
             setErrors(formErrors);
             return;
         }
-        const orderDetails = getOrderDetails();
-        const billingDetails = {
-            name,
-            mobile,
-            billingAddress,
-            landMarkAddress
-        };
-        const combinedDetails = {
-            orderDetails,
-            billingDetails,
-            totalPrice
-        };
-        const payload = JSON.stringify(combinedDetails);
-        dispatch(placeOrder(payload));
+       
+        dispatch(sendOtp({ "name": name, "mobile": mobile }));
     }
+    const handleSubmit = () => {
+        if (otp.every((digit) => digit !== '')) {
+            const orderDetails = getOrderDetails();
+            const billingDetails = {
+                otp:otp.join(''),
+                mobile,
+                billingAddress,
+                landMarkAddress
+            };
+            const combinedDetails = {
+                orderDetails,
+                billingDetails,
+                totalPrice
+            };
+            const payload = JSON.stringify(combinedDetails);
+            console.log("Details...",payload);
+            dispatch(placeOrder(payload));
+        }
+       
+    };
 
-   
+
     return (
         <Spin spinning={loader} tip="Loading" size="large">
             <div className="cart-summary-container">
@@ -133,7 +169,39 @@ function CartSummaryList() {
                         <span className="item-count">{localCart.length} items</span>
                     </h2>
                     <hr />
-                    {localCart.map(cartItem => {
+                    {localCart.length === 0 ? (
+                        <div className="emptyBanner">
+                            <Empty description="Looks like you haven't added anything to your cart yet. Start shopping now!" />
+                        </div>
+                    ) : (
+                        localCart.map(cartItem => {
+                            const product = products.find(p => p.product_id === cartItem.product_id);
+                            return product ? (
+                                <div key={product.product_id} className="product-item">
+                                    <img src={product.product_image} alt={product.product_name} className="product-image" />
+                                    <div className="product-details">
+                                        <div className="product-header">
+                                            <h3>{product.product_name}</h3>
+                                        </div>
+                                        <p>Price: ₹{product.product_price}</p>
+                                        <p>Store: {product.product_store_name}</p>
+                                        <div className="quantity-remove-container">
+                                            <div className="quantity-control">
+                                                <button onClick={() => handleQuantityChange(product.product_id, -1)}>-</button>
+                                                <span>{cartItem.quantity}</span>
+                                                <button onClick={() => handleQuantityChange(product.product_id, 1)}>+</button>
+                                            </div>
+                                            <button className="remove-button" onClick={() => handleRemoveItem(product.product_id)}>
+                                                <i className="fa fa-trash" aria-hidden="true"></i> Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : null;
+                        })
+                    )}
+
+                    {/* {localCart.map(cartItem => {
                         const product = products.find(p => p.product_id === cartItem.product_id);
                         return product ? (
                             <div key={product.product_id} className="product-item">
@@ -156,10 +224,18 @@ function CartSummaryList() {
                                     </div>
                                 </div>
                             </div>
-                        ) : null;
-                    })}
+                        ) :null;
+                    })} */}
                 </div>
-                <OrderSuccessPopup  />
+                {otpStatus && <OTPVerificationModal isOpen={false}
+                    handleChange={handleChange}
+                    handleKeyDown={handleKeyDown}
+                    handleSubmit={handleSubmit}
+                    otp={otp}
+                    onClose={onClose}
+                />}
+
+                <OrderSuccessPopup />
                 <div className="delivery-details">
                     <h2>Delivery Details</h2>
                     <form>

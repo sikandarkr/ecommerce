@@ -30,7 +30,6 @@ export const onClear = () => ({
 
 
 export const loadCartItems = (payload) => {
-  console.log('Load Cart Items Payload:', payload); // Add this log
   return {
     type: type.UPDATE_CART_LOCAL,
     payload,
@@ -66,15 +65,23 @@ export const applyFilter=(payload)=>{
    
 }
 
-export const placeOrder =(payload)=>{
+export const placeOrder =(payload,mobile)=>{
   return {
     type: type.PLACE_ORDER_REQUESTING,
     payload,
+    mobile
   };
 }
 
 export const closePopUp=()=>{
   return {
     type: "CLOSE_POP_UP",
+  };
+}
+
+export const sendOtp=(payload)=>{
+  return {
+    type: "SEND_OTP_REQUESTING",
+    payload
   };
 }

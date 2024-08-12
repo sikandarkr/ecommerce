@@ -1,6 +1,6 @@
 // UniversityService.ts
 
-import { fetchProductsList, addToCart, fetchSuggestionsApi,fetchFilterApi,placeOrderApi } from "./ApiService";
+import { fetchProductsList, addToCart, fetchSuggestionsApi,fetchFilterApi,placeOrderApi,sendOtpApi   } from "./ApiService";
 
 import {
   getFromLocalStorage,
@@ -33,7 +33,6 @@ class ProductsService {
       const data = await addToCart(params);
       return data;
     } catch (error) {
-      console.error("Error adding to cart:", error.message);
       throw error;
     }
   }
@@ -58,6 +57,16 @@ class ProductsService {
   static async placeOrderService(payload) {
     try {
       const data = await placeOrderApi(payload);
+      return data;
+    } catch (error) {
+      console.error("Error fetching suggestions:", error.message);
+      throw error;
+    }
+  }
+  static async sendOtpHandler(payload){
+    console.log("Payload from the place order..",payload);
+    try {
+      const data = await sendOtpApi(payload);
       return data;
     } catch (error) {
       console.error("Error fetching suggestions:", error.message);

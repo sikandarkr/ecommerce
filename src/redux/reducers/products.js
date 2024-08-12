@@ -7,10 +7,13 @@ const initialState = {
     suggestions: [],
     searchResults: [],
     notificationCart: [],
-    filter:"All",
-    orderDetails:{},
-    showpopup:false,
-    spinner:false
+    filter: "All",
+    orderDetails: {}, // Reset orderDetails
+    showpopup: false, // Set showpopup to false
+    spinner: false,
+    loading: false,
+    otpStatus: false,
+    isValidOtp: true
 };
 
 export default function products(state = initialState, action) {
@@ -22,13 +25,13 @@ export default function products(state = initialState, action) {
                 ...state,
                 productData: action.data,
                 productList: action.data,
-                loader: false,
+                loading: false,
             };
         case "GET_PRODUCTS_FAILED":
             return {
                 ...state,
                 productData: action.error,
-                loader: false,
+                loading: false,
             };
         case "ADD_TO_CART_REQUESTED":
             return { ...state, cartaddloader: true };
@@ -54,9 +57,7 @@ export default function products(state = initialState, action) {
                 searchResults: [],
             };
         case "UPDATE_CART_LOCAL":
-            console.log("Payload:", action.payload);
             const updatedNotificationCart = Array.isArray(action.payload) ? action.payload : [];
-            console.log("Updated Notification Cart:", updatedNotificationCart);
             return {
                 ...state,
                 cart: updatedNotificationCart,
@@ -70,7 +71,6 @@ export default function products(state = initialState, action) {
             };
         case "REMOVE_CART":
             const productIdToRemove = action.payload;
-            console.log("productIdToRemove...",productIdToRemove);
             return {
                 ...state,
                 cart: state.cart.filter(item => item.product_id !== productIdToRemove)
@@ -80,30 +80,59 @@ export default function products(state = initialState, action) {
                 ...state,
                 filter: action.payload.filter
             };
-        case "PLACE_ORDER_REQUESTING":
+        case "SEND_OTP_REQUESTING":
             return {
                 ...state,
                 spinner: true
+            }
+        case "SEND_OTP_SUCCESS":
+            return {
+                ...state,
+                spinner: false,
+                otpStatus: true
+            }
+        case "SEND_OTP_FAIL":
+            return {
+                ...state,
+                spinner: false,
+                otpStatus: false
+            }
+        case "PLACE_ORDER_REQUESTING":
+            return {
+                ...state,
+                spinner: true,
+                isValidOtp: true
             }
         case "PLACE_ORDER_SUCCESS":
             return {
                 ...state,
                 orderDetails: action.data,
                 spinner: false,
-                showpopup:true
+                showpopup: true,
+                otpStatus: false,
+                isValidOtp: true
             }
         case "PLACE_ORDER_FAILURE":
             return {
                 ...state,
+                orderDetails: action.data,
                 spinner: false,
-                showpopup:true
+                showpopup: false,
+                otpStatus: true,
+                isValidOtp: false
             }
         case "CLOSE_POP_UP":
             return {
                 ...state,
-                showpopup:false,
-                cart: []
-
+                showpopup: false,
+                cart: [],
+                orderDetails: {} // Clear orderDetails
+            }
+        case "CLOSE_OTP_MODAL":
+            return {
+                ...state,
+                otpStatus:false,
+                isValidOtp: true
             }
 
         default:

@@ -1,0 +1,67 @@
+.otp-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .otp-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .otp-inputs {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .otp-input {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    text-align: center;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .verify-button, .close-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .verify-button:hover, .close-button:hover {
+    background-color: #45a049;
+  }
+  
+  .close-button {
+    background-color: #f44336;
+    margin-left: 10px;
+  }
+  
+  .invalid-otp-message{
+    color: #ff4d4d; /* Red color to indicate an error */
+    font-weight: bold; /* Make the text bold */
+    font-size: 16px; /* Adjust the font size */
+    margin-top: 10px; /* Add some space above the message */
+    background-color: #ffe6e6; /* Light red background for emphasis */
+    padding: 10px; /* Add padding around the text */
+    border-radius: 5px; /* Rounded corners for a softer look */
+    border: 1px solid #ff9999; /* Add a border to make it stand out */
+    text-align: center; /* Center-align the text */
+  }

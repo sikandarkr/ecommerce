@@ -15,7 +15,6 @@ function* fetchProducts(action) {
 function* addToCartSaga(action) {
     try {
         const products = yield call(fetchProductsLists.addCartList,action.payload);
-        console.log("From Saga...",products);
         // You can perform any side effects here, like API calls
         yield put({ type: 'ADD_TO_CART_SUCCESS', payload: action.payload });
     } catch (e) {
@@ -28,7 +27,6 @@ function* fetchSuggestionsSaga(action) {
    const data = {"searchKey": action.payload };
    try {
        const suggestions = yield call(fetchProductsLists.fetchSuggestions, data);
-        console.log("SearchKeyData..", suggestions);
        yield put({ type: 'FETCH_SUGGESTIONS_SUCCESS', suggestions });
    } catch (e) {
        console.error(e);
@@ -49,13 +47,30 @@ function* fetchSearchResults(action){
 }
 
 function* placeOrder(action){
+   
     try {
         const orderDetail = yield call(fetchProductsLists.placeOrderService, action.payload);
-        yield put({type: 'PLACE_ORDER_SUCCESS', data: orderDetail});
+        console.log("orderDetail*******",orderDetail);
+        if(orderDetail.success){
+            console.log("orderDetail22222222222*******",orderDetail);
+            yield put({type: 'PLACE_ORDER_SUCCESS', data: orderDetail});
+        }
+        else{
+            yield put({ type:'PLACE_ORDER_FAILURE',data:orderDetail });
+        }
     } catch (e) {
         console.error(e);
-        yield put({ type: 'PLACE_ORDER_FAILURE', message: e.message });
+        yield put({ type:'PLACE_ORDER_FAILURE', message: e.message });
     }
+}
+function* sendOtp(action){
+    const orderDetail = yield call(fetchProductsLists.sendOtpHandler, action.payload);
+    if(orderDetail.status=="success"){
+        yield put({type:"SEND_OTP_SUCCESS",orderDetail})
+    }
+    else{
+        yield put({type:"SEND_OTP_FAIL",orderDetail})
+    } 
 }
 
 function* ProductSaga() {
@@ -64,6 +79,7 @@ function* ProductSaga() {
    yield takeLatest(type.FETCH_SUGGESTIONS_REQUESTED, fetchSuggestionsSaga);
    yield takeLatest(type.SEARCH_FILTER_REQUESTING,fetchSearchResults);
    yield takeLatest(type.PLACE_ORDER_REQUESTING, placeOrder);
+   yield takeLatest("SEND_OTP_REQUESTING",sendOtp);
 }
 
 export default ProductSaga;

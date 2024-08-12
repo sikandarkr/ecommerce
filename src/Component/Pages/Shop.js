@@ -9,7 +9,6 @@ function Shop() {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products);
     const searchKey = location.state?.searchKey;
-    console.log("Location state...", location.state);
 
     useEffect(() => {
         if (searchKey) {

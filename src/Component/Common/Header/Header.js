@@ -40,7 +40,6 @@ const Header = () => {
         i18n.changeLanguage(value);
     };
     const handleChange = (e) => {
-        console.log(e.value);
         i18n.changeLanguage(e.value);
     };
     const handleSearch = (value) => {
@@ -52,7 +51,6 @@ const Header = () => {
         }
     };
     const handleSelect = (value) => {
-        console.log("Handle Select...", value);
         setSearchValue(value);
         // dispatch(onSearch(value));
     };
@@ -67,7 +65,6 @@ const Header = () => {
     const clearFilter = () => {
         setSearchValue('');
         dispatch(getProducts());
-        // console.log("Hello from clear filter");
     }
 
     useEffect(() => {
@@ -79,7 +76,6 @@ const Header = () => {
                 } else {
                     const savedCartItems = JSON.parse(localStorage.getItem('cart') || '[]');
                     if (Array.isArray(savedCartItems)) {
-                        console.log('Dispatching loadCartItems with:', savedCartItems);
                         dispatch(loadCartItems(savedCartItems));
                     }
                 }
@@ -148,10 +144,10 @@ const Header = () => {
                         <i className="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>}
-
-                <Badge count={cart.length} onClick={redirectHandler} className='notification-badge'>
+                {cart.length > 0 && <Badge count={cart.length} onClick={redirectHandler} className='notification-badge'>
                     <i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                </Badge>
+                </Badge>}
+
                 <i className="fa fa-bars menu-icon" aria-hidden="true" onClick={toggleMenu}></i>
             </header>
 
