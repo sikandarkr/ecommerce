@@ -1,0 +1,54 @@
+.admin-container {
+  text-align: center;
+  padding: 40px;
+  background: #f0f2f5;
+  min-height: 100vh;
+}
+
+.admin-header {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.admin-header h1 {
+  font-size: 2.5em;
+  color: #f0a849;
+  margin: 0;
+  padding: 0;
+  background: -webkit-linear-gradient(#f0a849, #ffa726);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 3s ease infinite;
+}
+
+.header-decoration {
+  width: 120px;
+  height: 5px;
+  background-color: #f0a849;
+  margin: 10px auto 0;
+  border-radius: 5px;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.ant-tabs {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ant-tabs-nav .ant-tabs-tab {
+  font-size: 1.2em;
+  font-weight: 500;
+}

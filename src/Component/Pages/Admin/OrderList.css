@@ -1,0 +1,128 @@
+.order-list-container {
+    width: 90%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    margin-top: 90px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .filter-input {
+    width: 22%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+  }
+  
+  .order-table th,
+  .order-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .order-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .order-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .edit-icon,
+  .mark-icon {
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 10px;
+    color: #007bff;
+  }
+  
+  .mark-icon {
+    color: #28a745;
+  }
+  
+  .view-details-btn {
+    padding: 5px 10px;
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .view-details-btn:hover {
+    background-color: #138496;
+  }
+  
+  @media (max-width: 768px) {
+    .filter-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .filter-input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .order-table th,
+    .order-table td {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
+
+
+
+
+  .update-price-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fetch-form {
+    margin-bottom: 20px;
+  }
+  
+  .product-table .ant-table-thead > tr > th {
+    background-color: #fafafa;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .product-table .ant-table-tbody > tr > td {
+    text-align: center;
+  }
+  
+  .product-table .ant-table-tbody > tr > td:last-child {
+    text-align: center;
+  }
+  
+  .product-table .ant-input-number {
+    width: 100%;
+  }
+  
+  .product-table .ant-table-tbody > tr:hover {
+    background-color: #e6f7ff;
+  }
+  

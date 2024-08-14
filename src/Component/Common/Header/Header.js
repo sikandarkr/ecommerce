@@ -23,7 +23,7 @@ const Header = () => {
     const [searchValue, setSearchValue] = useState('');
     // const localCart = JSON.parse(localStorage.getItem('cart')) || [];
     const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-    const noHrscroll = ['/cartSummary'];
+    const noHrscroll = ['/cartSummary','/orders','/admin'];
     const search = ['/'];
 
 

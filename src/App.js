@@ -1,22 +1,25 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import logo from './logo.svg';
 import './App.css';
-const Header =React.lazy(() => import("./Component/Common/Header/Header"));
-// const  HorizontalScroll  =React.lazy(() => import("./Component/Common/HorizontalScroll/HorizontalScroll"));
-const  Dashboard = React.lazy(() => import("./Component/Pages/Dashboard"));
-const  CartSummaryList = React.lazy(() => import("./Component/Pages/CartSummaryList"));
+
+const Header = React.lazy(() => import("./Component/Common/Header/Header"));
+const Dashboard = React.lazy(() => import("./Component/Pages/Dashboard"));
+const CartSummaryList = React.lazy(() => import("./Component/Pages/CartSummaryList"));
+const AddProduct = React.lazy(() => import("./Component/Pages/Admin/AddProduct"));
+const AddStore = React.lazy(() => import("./Component/Pages/Admin/AddStore"));
+const AdminDashboard = React.lazy(() => import("./Component/Pages/Admin/AdminDashboard"));
+const OrderList = React.lazy(() => import("./Component/Pages/Admin/OrderList"));
+
 function App() {
   return (
     <BrowserRouter>
-    <Header/>
-    
+      <Header />
+
       <Routes>
-        {/* <Route index element={<ListPage />} /> */}
         <Route
-          path=""
+          path="/"
           element={
-            <React.Suspense fallback={<>...</>}>
+            <React.Suspense fallback={<div>Loading...</div>}>
               <Dashboard />
             </React.Suspense>
           }
@@ -24,15 +27,45 @@ function App() {
         <Route
           path="cartSummary"
           element={
-            <React.Suspense fallback={<>...</>}>
+            <React.Suspense fallback={<div>Loading...</div>}>
               <CartSummaryList />
             </React.Suspense>
           }
         />
-         
+        <Route
+          path="/admin"
+          element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <AdminDashboard />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/admin/addStore"
+          element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <AddStore />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/admin/addProduct"
+          element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <AddProduct />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <OrderList />
+            </React.Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
-
   );
 }
 
