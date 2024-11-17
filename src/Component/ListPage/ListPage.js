@@ -1,6 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { debounce } from "lodash";
 import { getUniversities } from '../../redux/actions/universities';
 import Loader from '../Common/Loader/Loader';
 import SearchBar from '../Common/SearchBar/SearchBar';

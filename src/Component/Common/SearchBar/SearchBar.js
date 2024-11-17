@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useCallback } from 'react';
+import {  useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 import { OnSearch, OnClear, FetchSuggestions } from '../../../redux/actions/universities';
 
