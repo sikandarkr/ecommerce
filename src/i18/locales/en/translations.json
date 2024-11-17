@@ -1,4 +1,13 @@
 {
     "home": "Home",
-    "page2": "Page 2"
+    "page2": "Page 2",
+    "all":"All",
+    "grocery":"Grocery",
+    "electronic Gadget" : "Electronic Gadget",
+    "home Utility" : "Home utilities",
+    "clothing":"Clothing",
+    "furniture":"Furniture",
+    "beauty Products" : "Beauty Products",
+    "health and Wellness" : "Health and Wellness",
+    "legal Consultancy" :"Legal Consultancy"
   } 

@@ -1,32 +1,35 @@
-import React, { useState } from 'react';
-import './HorizontalScroll.css';
-import Img from '../../../image/all.png';
-import Food from '../../../image/food.png';
-import Utilities from '../../../image/utilities.png';
-import Gadget from '../../../image/electronicGadget.png';
-import Clothing from '../../../image/clothing.png';
-import Furniture from '../../../image/Furniture.png';
-import Beauty from '../../../image/Beauty.png';
-import LegalConsultancy from '../../../image/LegalConsultancy.png';
-import Wellness from '../../../image/Wellness.png';
+import React, { useState } from "react";
+import "./HorizontalScroll.css";
+import Img from "../../../image/all.png";
+import Food from "../../../image/food.png";
+import Utilities from "../../../image/utilities.png";
+import Gadget from "../../../image/electronicGadget.png";
+import Clothing from "../../../image/clothing.png";
+import Furniture from "../../../image/Furniture.png";
+import Beauty from "../../../image/Beauty.png";
+import LegalConsultancy from "../../../image/LegalConsultancy.png";
+import Wellness from "../../../image/Wellness.png";
+import { useTranslation } from "react-i18next";
 
 const HorizontalScroll = () => {
+  const { t } = useTranslation();
   const [selectedCard, setSelectedCard] = useState(0); // Set the first card as selected by default
 
   const handleCardClick = (index) => {
     setSelectedCard(index);
   };
+  console.log(t("all"));
 
   const cards = [
-    { img: Img, text: "All" },
-    { img: Food, text: "Food" },
-    { img: Utilities, text: "Home utilities" },
-    { img: Gadget, text: "Electronic Gadget" },
-    { img: Clothing, text: "Clothing" },
-    { img: Furniture, text: "Furniture" },
-    { img: Beauty, text: "Beauty Products" },
-    { img: Wellness, text: "Health and Wellness" },
-    { img: LegalConsultancy, text: "Legal Consultancy" },
+    { img: Img, text: t("all") },
+    { img: Food, text: t("grocery") },
+    { img: Utilities, text: t("home Utility") },
+    { img: Gadget, text: t("electronic Gadget") },
+    { img: Clothing, text: t("clothing") },
+    { img: Furniture, text: t("furniture") },
+    { img: Beauty, text: t("beauty Products") },
+    { img: Wellness, text: t("health and Wellness") },
+    { img: LegalConsultancy, text: t("legal Consultancy") },
   ];
 
   return (
@@ -35,7 +38,7 @@ const HorizontalScroll = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`card ${selectedCard === index ? 'selected' : ''}`}
+            className={`card ${selectedCard === index ? "selected" : ""}`}
             onClick={() => handleCardClick(index)}
           >
             <img src={card.img} alt={card.text} height="100px" width="100px" />
