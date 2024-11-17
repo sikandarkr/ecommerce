@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import logo from "./logo.svg";
 import "./App.css";
 import AddProduct from "./Component/Pages/Admin/AddProduct";
 import AddStore from "./Component/Pages/Admin/AddStore";
