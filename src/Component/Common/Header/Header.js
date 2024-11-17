@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { debounce } from "lodash";
-import { Avatar, Badge, Space, Select, AutoComplete, Button } from "antd";
+import { Avatar, Badge, Select, AutoComplete, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -16,7 +16,7 @@ import "./header.css";
 const { Option } = Select;
 
 const Header = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Header = () => {
   const cart = useSelector((state) => state.products.cart);
   const isLoggedIn = useSelector((state) => state.user.auth);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [ setSearchValue] = useState("");
   // const localCart = JSON.parse(localStorage.getItem('cart')) || [];
   const [localCart, setLocalCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
@@ -163,7 +163,7 @@ const Header = () => {
           <div className="sidenav-extra">
             <div className="top-left-container">
               <div className="logo">
-                <img src="https://via.placeholder.com/50" alt="Logo" />
+                <img src="https://via.placeholder.com/50" alt="Logo"  />
               </div>
               <Badge count={cart.length} className="cart-badge">
                 <i className="fa fa-shopping-cart" aria-hidden="true"></i>

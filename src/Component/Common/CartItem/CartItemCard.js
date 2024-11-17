@@ -50,7 +50,7 @@
 // export default CartItemCard;
 
 
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCartCount } from '../../../redux/actions/products';
 import './Cartitem.css';
