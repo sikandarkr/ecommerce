@@ -164,7 +164,7 @@ const AddStore = () => {
               showUploadList={false}
               onChange={handleImageChange}
               accept="image/*"
-              beforeUpload={() => false} // Prevent automatic upload
+              beforeUpload={() => false} 
             >
               <Button icon={<UploadOutlined />}>Upload Image</Button>
             </Upload>

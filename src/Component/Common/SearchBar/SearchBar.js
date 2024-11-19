@@ -28,7 +28,7 @@ const SearchBar = ({ searchTerm }) => {
 
   const handleSearchChange = (event) => {
     // const searchTerm = event.target.value;
-    console.log("SerchTerm-------------",event.target.value);
+   
     // handleSearch(searchTerm);
   };
 
