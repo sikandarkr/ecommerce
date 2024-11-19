@@ -14,7 +14,7 @@ jest.mock('react-redux', () => ({
 jest.mock('lodash', () => ({
   debounce: (fn) => fn, // Mock debounce to call the function immediately
 }));
-
+// lllls
 describe('SearchBar Component', () => {
   const dispatch = jest.fn();
   beforeEach(() => {
