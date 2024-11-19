@@ -2,10 +2,6 @@
 
 import { fetchProductsList, addToCart,fetchSuggestionsApi } from "./ApiService";
 
-import {
-  getFromLocalStorage,
-  saveToLocalStorage,
-} from "./../utils/StorageUtil";
 
 // import University from "../../models/University";
 
