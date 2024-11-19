@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "antd";
-import "../../css/admin.css"; // Ensure you have the corresponding CSS file for styling
+import "../../css/admin.css"; 
 import AddStore from "./AddStore";
 import AddProduct from "./AddProduct";
 
