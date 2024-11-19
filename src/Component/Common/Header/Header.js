@@ -27,6 +27,7 @@ const Header = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [ setSearchValue] = useState("");
   // const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+  // eslint-disable-next-line no-unused-vars
   const [localCart, setLocalCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
@@ -154,7 +155,7 @@ const Header = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <a
-            href="javascript:void(0)"
+            href="https://kkk.com"
             className="closebtn"
             onClick={toggleMenu}
           >

@@ -85,7 +85,7 @@ const AddStore = () => {
       );
       console.log("Response code:", response.status);
       console.log("respose data >>>>", response.data);
-      if (response?.data.message == "Store created successfully") {
+      if (response?.data.message === "Store created successfully") {
         form.resetFields();
         setImagePreview(null);
         setModalVisible(true);

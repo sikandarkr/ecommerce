@@ -76,7 +76,8 @@ const AddProduct = ({ storeList }) => {
     );
 
     // Check if the entered store ID matches the selected store ID
-    if (values.product_store_id != selectedStoreId) {
+    // eslint-disable-next-line no-unused-vars
+    if (values.product_store_id !== selectedStoreId) {
       notification.error({
         message: "Store ID Mismatch",
         description:
@@ -109,8 +110,9 @@ const AddProduct = ({ storeList }) => {
           },
         }
       );
+      // eslint-disable-next-line no-unused-vars
       console.log("Add product response:", response.data);
-      if (response.data.message == "Item was created.") {
+      if (response.data.message === "Item was created.") {
         form.resetFields();
         setImagePreview(null);
         setModalVisible(true);
